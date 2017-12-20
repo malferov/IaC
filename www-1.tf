@@ -1,3 +1,4 @@
+/*
 resource "digitalocean_droplet" "www-1" {
   image = "centos-7-x64"
   name = "www-1"
@@ -24,3 +25,4 @@ resource "digitalocean_droplet" "www-1" {
   }
 
 }
+*/
