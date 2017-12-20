@@ -1,4 +1,4 @@
-/*
+
 provider "aws" {
   version = "~> 1.6"
   access_key = "ACCESS_KEY_HERE"
@@ -11,4 +11,3 @@ resource "aws_instance" "tfinst" {
   instance_type = "t2.micro"
 #  ami           = "ami-b374d5a5"
 }
-*/
