@@ -1,3 +1,5 @@
+variable "public_key_path" {}
+variable "key_name" {}
 
 resource "aws_security_group" "sg_www_aws" {
   name        = "www"
@@ -29,15 +31,24 @@ resource "aws_security_group" "sg_www_aws" {
   }
 }
 
+resource "aws_key_pair" "auth" {
+  key_name   = "${var.key_name}"
+  public_key = "${file(var.public_key_path)}"
+}
+
 resource "aws_instance" "www-aws" {
   ami             = "ami-bf4193c7"
   instance_type   = "t2.micro"
+  key_name        = "${aws_key_pair.auth.id}"
   security_groups = ["www"]
+
+  connection {
+    user = "ec2-user"
+  }
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get -y update",
-      "sudo apt-get -y install nginx",
+      "sudo yum install nginx",
       "sudo service nginx start",
     ]
   }
