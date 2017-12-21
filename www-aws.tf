@@ -1,4 +1,5 @@
 variable "public_key_path" {}
+variable "private_key_path" {}
 variable "key_name" {}
 
 resource "aws_security_group" "sg_www_aws" {
@@ -44,6 +45,7 @@ resource "aws_instance" "www-aws" {
 
   connection {
     user = "ec2-user"
+    private_key = "${file(var.private_key_path)}"
   }
 
   provisioner "remote-exec" {

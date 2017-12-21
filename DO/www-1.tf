@@ -1,4 +1,7 @@
-/*
+variable "pub_key" {}
+variable "pvt_key" {}
+variable "ssh_key_fp" {}
+
 resource "digitalocean_droplet" "www-1" {
   image = "centos-7-x64"
   name = "www-1"
@@ -6,7 +9,7 @@ resource "digitalocean_droplet" "www-1" {
   size = "512mb"
   private_networking = true
   ssh_keys = [
-    "${var.ssh_fingerprint}"
+    "${var.ssh_key_fp}"
   ]
 
   connection {
@@ -19,10 +22,8 @@ resource "digitalocean_droplet" "www-1" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      # install nginx
       "sudo yum -y install nginx"
     ]
   }
 
 }
-*/
