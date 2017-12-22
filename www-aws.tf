@@ -50,7 +50,7 @@ resource "aws_instance" "www-aws" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo yum install nginx",
+      "sudo yum -y install nginx",
       "sudo service nginx start",
     ]
   }
