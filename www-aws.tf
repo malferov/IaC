@@ -38,6 +38,7 @@ resource "aws_key_pair" "auth" {
 }
 
 resource "aws_instance" "www-aws" {
+  count           = 1
   ami             = "ami-bf4193c7"
   instance_type   = "t2.micro"
   key_name        = "${aws_key_pair.auth.id}"
@@ -52,11 +53,20 @@ resource "aws_instance" "www-aws" {
     inline = [
       "sudo yum -y install nginx",
       "sudo service nginx start",
+      "sudo yum -y install mc",
     ]
+  }
+
+  provisioner "chef" {
+    node_name  = "www-aws-${count.index}"
+    server_url = "http://localhost"
+    user_name  = "terraform"
+    user_key   = "key"
+    run_list   = ["cookbook::recipe"]
   }
 
 }
 
 output "ip" {
-  value = "${aws_instance.www-aws.public_ip}"
+  value = "${aws_instance.www-aws.*.public_ip}"
 }
