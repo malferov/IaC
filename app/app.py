@@ -1,14 +1,19 @@
+#!/bin/env python
 from flask import Flask
 from flask_restful import Api, Resource
+from requests import put, get
 
 app = Flask(__name__)
 api = Api(app)
 
-class Wrapper(Resource):
+class Health(Resource):
     def get(self):
-        return {'status': 'up'}
+        return query('_cluster/health')
 
-api.add_resource(Wrapper, '/')
+def query(route):
+    return get('http://localhost:9200/{}'.format(route), auth=('elastic', 'changeme')).json()
+
+api.add_resource(Health, '/health')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
