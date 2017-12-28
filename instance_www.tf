@@ -37,7 +37,7 @@ resource "aws_key_pair" "auth" {
   public_key = "${file(var.public_key_path)}"
 }
 
-resource "aws_instance" "www-aws" {
+resource "aws_instance" "www" {
   count           = 1
   ami             = "ami-bf4193c7"
   instance_type   = "t2.micro"
@@ -58,7 +58,7 @@ resource "aws_instance" "www-aws" {
   }
 
   provisioner "chef" {
-    node_name  = "www-aws-${count.index}"
+    node_name  = "www-${count.index}"
     server_url = "http://localhost"
     user_name  = "terraform"
     user_key   = "key"
@@ -68,5 +68,5 @@ resource "aws_instance" "www-aws" {
 }
 
 output "ip" {
-  value = "${aws_instance.www-aws.*.public_ip}"
+  value = "${aws_instance.www.*.public_ip}"
 }
