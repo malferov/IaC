@@ -1,29 +1,29 @@
 variable "public_key_path" {}
 variable "private_key_path" {}
 variable "key_name" {}
+variable "ami_id" {}
 
 resource "aws_security_group" "sg_www_aws" {
   name        = "www"
   description = "Used in the terraform"
-#  vpc_id      = "${aws_vpc.default.id}"
-
-# SSH access from anywhere
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  # HTTP access from anywhere
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  # outbound internet access
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -39,32 +39,10 @@ resource "aws_key_pair" "auth" {
 
 resource "aws_instance" "www" {
   count           = 1
-  ami             = "ami-bf4193c7"
+  ami             = "${var.ami_id}"
   instance_type   = "t2.micro"
   key_name        = "${aws_key_pair.auth.id}"
   security_groups = ["www"]
-
-  connection {
-    user = "ec2-user"
-    private_key = "${file(var.private_key_path)}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum -y install nginx",
-      "sudo service nginx start",
-      "sudo yum -y install mc",
-    ]
-  }
-
-  provisioner "chef" {
-    node_name  = "www-${count.index}"
-    server_url = "http://localhost"
-    user_name  = "terraform"
-    user_key   = "key"
-    run_list   = ["cookbook::recipe"]
-  }
-
 }
 
 output "ip" {
