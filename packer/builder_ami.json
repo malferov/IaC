@@ -19,12 +19,18 @@
     "destination": "~/"
   },
   {
+    "type": "file",
+    "source": "../app/app.service",
+    "destination": "~/"
+  },
+  {
     "type": "shell",
     "inline":[
       "sudo mkdir /opt/app",
       "sudo chown centos:centos /opt/app",
       "mv ~/app.py /opt/app/",
-      "sudo yum -y install epel-release",
+      "sudo mv ~/app.service /etc/systemd/system/",
+      "sudo yum -y install epel-release mc",
       "sudo yum -y install python-pip",
       "sudo pip install Flask flask-restful"
     ]
@@ -32,10 +38,8 @@
   {
     "type": "shell",
     "inline":[
-      "sudo yum -y install nginx",
-      "sudo systemctl enable nginx",
-      "sudo systemctl start nginx",
-      "sudo yum -y install mc"
+      "sudo systemctl enable app",
+      "sudo systemctl start app"
     ]
   }]
 }
