@@ -1,11 +1,10 @@
 variable "public_key_path" {}
 variable "private_key_path" {}
-variable "key_name" {}
 variable "ami_id" {}
 
-resource "aws_security_group" "sg_www_aws" {
+resource "aws_security_group" "sg_www" {
   name        = "www"
-  description = "Used in the terraform"
+  description = "access to www instance"
   ingress {
     from_port   = 22
     to_port     = 22
@@ -32,8 +31,8 @@ resource "aws_security_group" "sg_www_aws" {
   }
 }
 
-resource "aws_key_pair" "auth" {
-  key_name   = "${var.key_name}"
+resource "aws_key_pair" "auth_www" {
+  key_name   = "www-cred"
   public_key = "${file(var.public_key_path)}"
 }
 
@@ -41,7 +40,7 @@ resource "aws_instance" "www" {
   count           = 1
   ami             = "${var.ami_id}"
   instance_type   = "t2.micro"
-  key_name        = "${aws_key_pair.auth.id}"
+  key_name        = "${aws_key_pair.auth_www.id}"
   security_groups = ["www"]
 }
 

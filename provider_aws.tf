@@ -1,12 +1,13 @@
-variable "access_key" {}
-variable "secret_key" {}
-variable "region" {
-  default = "us-west-2"
+variable "access_key" {
+  type = "map"
 }
+variable "secret_key" {
+  type = "map"
+}
+variable "region" {}
 
 provider "aws" {
-  version = "~> 1.6"
-  access_key = "${var.access_key}"
-  secret_key = "${var.secret_key}"
+  access_key = "${var.access_key[terraform.workspace]}"
+  secret_key = "${var.secret_key[terraform.workspace]}"
   region     = "${var.region}"
 }
