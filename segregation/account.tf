@@ -1,6 +1,6 @@
 
 module "management" {
-  source = "./environment"
+  source = "./management"
   providers = {
     aws = "aws.management"
   }
