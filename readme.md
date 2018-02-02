@@ -11,11 +11,6 @@ Environment specific resources are encapsulated into module `./environment`.
 In order to deploy environment specific DNS records fill in the following section in `segregation/terraform.tfvars`
 ```
 domain = "_your_subdomain_name_"
-api_ip = {
-  development = "_development_endpoint_ip_"
-  staging     = "_staging_endpoint_ip_"
-  production  = "_production_endpoint_ip_"
-}
 ```
 
 ### deployment
@@ -29,6 +24,7 @@ terraform apply
 Then switch back to the environment working directory. Create new workspace and deploy new environment.
 ```
 cd ..
+terraform workspace new _environment_
 terraform apply -auto-approve
 ./facts_update.sh
 ```

@@ -3,7 +3,7 @@ variable "env_account" {
   type = "map"
 }
 variable "domain" {}
-variable "api_ip" {
+variable "address" {
   type = "map"
 }
 module "management" {
@@ -23,7 +23,7 @@ module "staging" {
   }
   environment = "staging"
   domain      = "${var.domain}"
-  api_ip      = "${var.api_ip}"
+  address     = "${var.address}"
   zone        = "${module.management.zone}"
 }
 
@@ -34,6 +34,6 @@ module "production" {
   }
   environment = "production"
   domain      = "${var.domain}"
-  api_ip      = "${var.api_ip}"
+  address     = "${var.address}"
   zone        = "${module.management.zone}"
 }

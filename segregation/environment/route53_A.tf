@@ -1,6 +1,6 @@
 variable "environment" {}
 variable "domain" {}
-variable "api_ip" {
+variable "address" {
   type = "map"
 }
 variable "zone" {}
@@ -11,5 +11,5 @@ resource "aws_route53_record" "iac-api" {
   name     = "api.${var.environment}.${var.domain}"
   type     = "A"
   ttl      = "60"
-  records  = ["${lookup(var.api_ip, var.environment)}"]
+  records  = ["${lookup(var.address, var.environment)}"]
 }
