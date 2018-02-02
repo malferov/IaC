@@ -26,11 +26,3 @@ provider "aws" {
   secret_key = "${var.secret_key["production"]}"
   region     = "${var.region}"
 }
-
-terraform {
-  backend "s3" {
-    bucket = "malferov.segregation"
-    key    = "terraform.tfstate"
-    region = "us-west-2"
-  }
-}
