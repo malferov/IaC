@@ -11,5 +11,5 @@ resource "aws_route53_record" "iac-api" {
   name     = "api.${var.environment}.${var.domain}"
   type     = "A"
   ttl      = "60"
-  records  = ["${var.api_ip[var.environment]}"]
+  records  = ["${lookup(var.api_ip, var.environment)}"]
 }
