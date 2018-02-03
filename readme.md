@@ -13,7 +13,7 @@ In order to deploy environment specific DNS records fill in the following sectio
 domain = "_your_subdomain_name_"
 ```
 
-### deployment
+### environment deployment
 It is necessary to deploy management environment first.
 ```
 cd segregation
