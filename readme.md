@@ -29,3 +29,11 @@ terraform apply -auto-approve
 ./facts_update.sh
 ```
 Finally update DNS records from the management account invoking `cd segregation && terraform apply -auto-approve`.
+
+### setup deployment environment
+You have to install Terraform and `jq` tool.
+```
+curl -O https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip
+unzip ./terraform_0.11.3_linux_amd64.zip && sudo mv ./terraform /usr/local/bin/
+sudo yum install jq
+```

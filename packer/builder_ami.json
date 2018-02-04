@@ -41,5 +41,19 @@
       "sudo systemctl enable app",
       "sudo systemctl start app"
     ]
-  }]
+  }],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    },
+    {
+      "type": "shell-local",
+      "inline": [
+         "echo ami_id = $(jq '.builds[].artifact_id/\":\"|last' manifest.json) > ../packer.auto.tfvars",
+         "cp ../packer.auto.tfvars ../segregation/"
+      ]
+    }
+  ]
 }
