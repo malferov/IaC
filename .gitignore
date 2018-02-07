@@ -1,6 +1,5 @@
 .terraform
-terraform.tfvars*
-*auto.tfvars*
+*tfvars*
 .key
 terraform.tfstate*
 packer/manifest.json
