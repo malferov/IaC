@@ -37,3 +37,48 @@ curl -O https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_a
 unzip ./terraform_0.11.3_linux_amd64.zip && sudo mv ./terraform /usr/local/bin/
 sudo yum install jq
 ```
+
+### setup management environment
+Create `management_user` in management account and apply the policy below.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::malferov.segregation",
+                "arn:aws:s3:::malferov.segregation/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:*",
+            "Resource": [
+#temp           "*",
+                "arn:aws:iam::*:policy/*",
+                "arn:aws:iam::*:user/*",
+                "arn:aws:iam::*:group/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "route53:*",
+            "Resource": [
+                "arn:aws:route53:::hostedzone/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+#temt           "ec2:*",
+                "ec2:DescribeImages",
+                "ec2:DescribeImageAttribute",
+                "ec2:ModifyImageAttribute"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
