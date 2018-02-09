@@ -1,6 +1,7 @@
 variable "ami_id" {}
 variable "domain" {}
 variable "backet" {}
+variable "mgt_account" {}
 variable "env_account" {type = "map"}
 variable "address"     {type = "map"}
 
@@ -24,6 +25,7 @@ module "staging" {
   domain      = "${var.domain}"
   address     = "${var.address}"
   zone        = "${module.management.zone}"
+  account     = "${var.mgt_account}"
 }
 
 module "production" {
@@ -35,4 +37,5 @@ module "production" {
   domain      = "${var.domain}"
   address     = "${var.address}"
   zone        = "${module.management.zone}"
+  account     = "${var.mgt_account}"
 }

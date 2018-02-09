@@ -66,9 +66,10 @@ Create `management_user` in management account and apply the policy below.
         },
         {
             "Effect": "Allow",
-            "Action": "route53:*",
+            "Action": "route53:*"
             "Resource": [
                 "arn:aws:route53:::hostedzone/*"
+                "arn:aws:route53:::change/*"
             ]
         },
         {

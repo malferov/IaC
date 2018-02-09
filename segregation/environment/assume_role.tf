@@ -1,3 +1,4 @@
+variable "account" {}
 
 resource "aws_iam_policy" "env_policy" {
   name   = "environment_policy"
@@ -24,11 +25,11 @@ resource "aws_iam_role" "env_role" {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Effect": "Allow",
       "Action": "sts:AssumeRole",
       "Principal": {
-        "AWS": "arn:aws:iam::488700729350:root"
-      },
-      "Effect": "Allow"
+        "AWS": "arn:aws:iam::${var.account}:root"
+      }
     }
   ]
 }
