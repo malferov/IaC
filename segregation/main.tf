@@ -1,19 +1,18 @@
 variable "ami_id" {}
-variable "env_account" {
-  type = "map"
-}
 variable "domain" {}
-variable "address" {
-  type = "map"
-}
+variable "backet" {}
+variable "env_account" {type = "map"}
+variable "address"     {type = "map"}
+
 module "management" {
   source    = "./management"
   providers = {
     aws = "aws.management"
   }
-  ami_id    = "${var.ami_id}"
-  account   = "${var.env_account}"
-  domain    = "${var.domain}"
+  ami_id  = "${var.ami_id}"
+  account = "${var.env_account}"
+  domain  = "${var.domain}"
+  backet  = "${var.backet}"
 }
 
 module "staging" {

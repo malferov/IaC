@@ -46,11 +46,13 @@ Create `management_user` in management account and apply the policy below.
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": "s3:*",
-            "Resource": [
-                "arn:aws:s3:::malferov.segregation",
-                "arn:aws:s3:::malferov.segregation/*"
-            ]
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::malferov.segregation"
+        },
+        {
+            "Effect": "Allow",
+            "Action": ["s3:GetObject", "s3:PutObject"],
+            "Resource": "arn:aws:s3:::malferov.segregation/terraform.tfstate"
         },
         {
             "Effect": "Allow",
