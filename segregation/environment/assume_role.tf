@@ -17,6 +17,16 @@ resource "aws_iam_policy" "env_policy" {
         }
       },
       "Effect": "Allow"
+    },
+    {
+      "Action": "ec2:RunInstances",
+      "Resource": "arn:aws:ec2:*:*:instance/*",
+      "Condition": {
+        "StringNotEquals": {
+          "ec2:InstanceType": "${var.itype}"
+        }
+      },
+      "Effect": "Deny"
     }
   ]
 }
