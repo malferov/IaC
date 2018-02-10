@@ -1,5 +1,6 @@
 variable "account" {}
 variable "region" {}
+variable "itype" {}
 
 resource "aws_iam_policy" "env_policy" {
   name   = "environment_policy"
@@ -8,25 +9,14 @@ resource "aws_iam_policy" "env_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": [
-        "ec2:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:ec2:${var.region}::*"
-    },
-    {
-      "Action": [
-        "ec2:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:ec2:${var.region}::key-pair/*"
-    },
-    {
-      "Action": [
-        "ec2:*"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
+      "Action": "ec2:*",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:Region": "${var.region}"
+        }
+      },
+      "Effect": "Allow"
     }
   ]
 }

@@ -1,6 +1,7 @@
 variable "public_key_path" {}
 variable "private_key_path" {}
 variable "ami_id" {}
+variable "itype" {}
 
 resource "aws_security_group" "sg_api" {
   name        = "api"
@@ -33,7 +34,7 @@ resource "aws_key_pair" "auth_api" {
 resource "aws_instance" "api" {
   count           = 1
   ami             = "${var.ami_id}"
-  instance_type   = "t2.micro"
+  instance_type   = "${var.itype}"
   key_name        = "${aws_key_pair.auth_api.id}"
   security_groups = ["api"]
 }

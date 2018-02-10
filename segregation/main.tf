@@ -4,6 +4,7 @@ variable "backet" {}
 variable "mgt_account" {}
 variable "env_account" {type = "map"}
 variable "address"     {type = "map"}
+variable "itype" {}
 
 module "management" {
   source    = "./management"
@@ -27,6 +28,7 @@ module "staging" {
   zone        = "${module.management.zone}"
   account     = "${var.mgt_account}"
   region      = "${var.region}"
+  itype       = "${var.itype}"
 }
 
 module "production" {
@@ -40,4 +42,5 @@ module "production" {
   zone        = "${module.management.zone}"
   account     = "${var.mgt_account}"
   region      = "${var.region}"
+  itype       = "${var.itype}"
 }
