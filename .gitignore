@@ -3,3 +3,4 @@
 .key
 terraform.tfstate*
 packer/manifest.json
+*.tmp
