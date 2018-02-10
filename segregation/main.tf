@@ -26,6 +26,7 @@ module "staging" {
   address     = "${var.address}"
   zone        = "${module.management.zone}"
   account     = "${var.mgt_account}"
+  region      = "${var.region}"
 }
 
 module "production" {
@@ -38,4 +39,5 @@ module "production" {
   address     = "${var.address}"
   zone        = "${module.management.zone}"
   account     = "${var.mgt_account}"
+  region      = "${var.region}"
 }

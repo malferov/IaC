@@ -47,18 +47,17 @@ Create `management_user` in management account and apply the policy below.
         {
             "Effect": "Allow",
             "Action": "s3:ListBucket",
-            "Resource": "arn:aws:s3:::malferov.segregation"
+            "Resource": "arn:aws:s3:::backet_name"
         },
         {
             "Effect": "Allow",
             "Action": ["s3:GetObject", "s3:PutObject"],
-            "Resource": "arn:aws:s3:::malferov.segregation/terraform.tfstate"
+            "Resource": "arn:aws:s3:::backet_name/terraform.tfstate"
         },
         {
             "Effect": "Allow",
             "Action": "iam:*",
             "Resource": [
-#temp           "*",
                 "arn:aws:iam::*:policy/*",
                 "arn:aws:iam::*:user/*",
                 "arn:aws:iam::*:group/*"
@@ -66,18 +65,25 @@ Create `management_user` in management account and apply the policy below.
         },
         {
             "Effect": "Allow",
-            "Action": "route53:*"
+            "Action": [
+                "route53:CreateHostedZone",
+                "route53:DeleteHostedZone",
+                "route53:GetHostedZone"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "route53:*",
             "Resource": [
-                "arn:aws:route53:::hostedzone/*"
+                "arn:aws:route53:::hostedzone/*",
                 "arn:aws:route53:::change/*"
             ]
         },
         {
             "Effect": "Allow",
             "Action": [
-#temt           "ec2:*",
-                "ec2:DescribeImages",
-                "ec2:DescribeImageAttribute",
+                "ec2:Describe*",
                 "ec2:ModifyImageAttribute"
             ],
             "Resource": "*"
