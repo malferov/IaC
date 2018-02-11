@@ -1,5 +1,6 @@
 ## collapsible markdown?
 <details><summary>CLICK ME</summary>
+
 ```json
 {
     "Version": "2012-10-17",
@@ -51,4 +52,5 @@
     ]
 }
 ```
+
 </details>
