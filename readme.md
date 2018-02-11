@@ -40,12 +40,12 @@ Manually create `management_user` in management account and apply the policy bel
         {
             "Effect": "Allow",
             "Action": "s3:ListBucket",
-            "Resource": "arn:aws:s3:::backet_name"
+            "Resource": "arn:aws:s3:::bucket_name"
         },
         {
             "Effect": "Allow",
             "Action": ["s3:GetObject", "s3:PutObject"],
-            "Resource": "arn:aws:s3:::backet_name/terraform.tfstate"
+            "Resource": "arn:aws:s3:::bucket_name/terraform.tfstate"
         },
         {
             "Effect": "Allow",
