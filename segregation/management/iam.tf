@@ -23,6 +23,19 @@ resource "aws_iam_user_policy" "env_policy" {
       "Action": "sts:AssumeRole",
       "Resource": "arn:aws:iam::${element(values(var.account), count.index)}:role/environment_role",
       "Effect": "Allow"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:GetHostedZone",
+        "route53:ListResourceRecordSets",
+        "route53:ChangeResourceRecordSets",
+        "route53:GetChange"
+      ],
+      "Resource": [
+        "arn:aws:route53:::hostedzone/*",
+        "arn:aws:route53:::change/*"
+      ]
     }
   ]
 }

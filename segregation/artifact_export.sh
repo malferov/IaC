@@ -4,3 +4,4 @@ printf  "\n\"secret_key\": $(terraform output -json -module=management secret_ke
 printf "[default]\n" > ../.key/backend.credentials
 printf     "aws_access_key_id=$(terraform output -module=management backend_access_key)\n" >> ../.key/backend.credentials
 printf "aws_secret_access_key=$(terraform output -module=management backend_secret_key)\n" >> ../.key/backend.credentials
+printf "zone = \"$(terraform output -module=management zone)\"\n" > ../zone.auto.tfvars
