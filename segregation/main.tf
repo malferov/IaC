@@ -3,7 +3,6 @@ variable "domain" {}
 variable "backet" {}
 variable "mgt_account" {}
 variable "env_account" {type = "map"}
-variable "address"     {type = "map"}
 variable "itype" {}
 
 module "management" {
@@ -22,10 +21,6 @@ module "staging" {
   providers   = {
     aws = "aws.staging"
   }
-  environment = "staging"
-  domain      = "${var.domain}"
-  address     = "${var.address}"
-  zone        = "${module.management.zone}"
   account     = "${var.mgt_account}"
   region      = "${var.region}"
   itype       = "${var.itype}"
@@ -36,10 +31,6 @@ module "production" {
   providers   = {
     aws = "aws.production"
   }
-  environment = "production"
-  domain      = "${var.domain}"
-  address     = "${var.address}"
-  zone        = "${module.management.zone}"
   account     = "${var.mgt_account}"
   region      = "${var.region}"
   itype       = "${var.itype}"

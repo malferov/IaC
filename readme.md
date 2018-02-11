@@ -13,23 +13,6 @@ In order to deploy environment specific DNS records fill in the following sectio
 domain = "_your_subdomain_name_"
 ```
 
-### environment deployment
-It is necessary to deploy management environment first.
-```
-cd segregation
-terraform init
-terraform plan
-terraform apply
-```
-Then switch back to the environment working directory. Create new workspace and deploy new environment.
-```
-cd ..
-terraform workspace new _environment_
-terraform apply -auto-approve
-./facts_update.sh
-```
-Finally update DNS records from the management account invoking `cd segregation && terraform apply -auto-approve`.
-
 ### setup deployment environment
 You have to install Terraform and `jq` tool.
 ```
@@ -38,8 +21,18 @@ unzip ./terraform_0.11.3_linux_amd64.zip && sudo mv ./terraform /usr/local/bin/
 sudo yum install jq
 ```
 
+
 ### setup management environment
-Create `management_user` in management account and apply the policy below.
+It is necessary to deploy management environment first.
+```
+cd segregation
+terraform init
+terraform plan
+terraform apply
+```
+Manually create `management_user` in management account and apply the policy below.
+<details><summary>IAM policy for management user</summary>
+
 ```json
 {
     "Version": "2012-10-17",
@@ -47,12 +40,12 @@ Create `management_user` in management account and apply the policy below.
         {
             "Effect": "Allow",
             "Action": "s3:ListBucket",
-            "Resource": "arn:aws:s3:::backet_name"
+            "Resource": "arn:aws:s3:::bucket_name"
         },
         {
             "Effect": "Allow",
             "Action": ["s3:GetObject", "s3:PutObject"],
-            "Resource": "arn:aws:s3:::backet_name/terraform.tfstate"
+            "Resource": "arn:aws:s3:::bucket_name/terraform.tfstate"
         },
         {
             "Effect": "Allow",
@@ -90,4 +83,13 @@ Create `management_user` in management account and apply the policy below.
         }
     ]
 }
+```
+
+</details>
+
+### deployment of new environment
+From the environment working directory create new workspace and deploy new environment.
+```
+terraform workspace new _environment_
+terraform apply -auto-approve
 ```

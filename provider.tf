@@ -11,3 +11,10 @@ provider "aws" {
     role_arn = "arn:aws:iam::${var.env_account[terraform.workspace]}:role/environment_role"
   }
 }
+
+provider "aws" {
+  alias      = "management"
+  access_key = "${var.access_key[terraform.workspace]}"
+  secret_key = "${var.secret_key[terraform.workspace]}"
+  region     = "${var.region}"
+}
