@@ -32,6 +32,7 @@ terraform apply
 ```
 Manually create `management_user` in management account and apply the policy below.
 <details><summary>IAM policy for management user</summary>
+
 ```json
 {
     "Version": "2012-10-17",
@@ -83,6 +84,7 @@ Manually create `management_user` in management account and apply the policy bel
     ]
 }
 ```
+
 </details>
 
 ### deployment of new environment
