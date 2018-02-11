@@ -1,10 +1,5 @@
 variable "backet" {}
 
-resource "aws_iam_group" "env_group" {
-  name = "environments"
-  path = "/users/"
-}
-
 resource "aws_iam_user" "env_user" {
   count = "${length(var.account)}"
   name  = "${element(keys(var.account), count.index)}_user"
@@ -16,30 +11,18 @@ resource "aws_iam_access_key" "env_key" {
   user  = "${aws_iam_user.env_user.*.name[count.index]}"
 }
 
-resource "aws_iam_group_membership" "env_member" {
-  name  = "environment_member"
-  users = ["${aws_iam_user.env_user.*.name}"]
-  group = "${aws_iam_group.env_group.name}"
-}
-
-resource "aws_iam_group_policy" "env_policy" {
+resource "aws_iam_user_policy" "env_policy" {
+  count  = "${length(var.account)}"
   name   = "environment_policy"
-  group  = "${aws_iam_group.env_group.id}"
+  user   = "${aws_iam_user.env_user.*.id[count.index]}"
   policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
       "Action": "sts:AssumeRole",
-      "Resource": "arn:aws:iam::${var.account["production"]}:role/environment_role"
+      "Resource": "arn:aws:iam::${element(values(var.account), count.index)}:role/environment_role",
+      "Effect": "Allow"
     }
   ]
 }
