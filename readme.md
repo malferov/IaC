@@ -1,6 +1,16 @@
 ## IaC example project
 under construction
 
+The project shows how to deploy sample application to a cloud provider.
+The sample application is a restful api web service written in `Flask`.
+Having machine images tool like `Packer` in your deployment pipeline gives you even more flexibility.
+It gives you an option to run your application almost everywhere: starting from on-premises enterprise solutions end up with cloud-based.
+The main tool is `Terraform` taking over control of `AWS` cloud provider infrastructure.
+The deployment pipeline is fully automated.
+One of the main goal is provide an ability for collaborative work.
+Taking into account the nature of any application life cycle is a teamwork, isolated environments are essential.
+This is a infrastructure as code. It benefits us with source control and code review of our infrastructure.
+
 ### setup multiple environment
 Create separate AWS `management` account for storing remote state and managing common components.
 Create dedicated account per each environment.
