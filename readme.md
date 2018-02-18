@@ -90,7 +90,8 @@ Manually create `management_user` in management account and apply the policy bel
 
 </details>
 
-After creation management user and applying policy above, create security credentials for that user. Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
+After creation management user and applying policy above, create security credentials for that user.
+Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
 
 Manually create `environment_root_user` in every environment account and apply the policy below.
 <details><summary>IAM policy for environment root user</summary>
@@ -124,7 +125,8 @@ Manually create `environment_root_user` in every environment account and apply t
 
 </details>
 
-After creation environment root user in every environment account and applying policy above, create security credentials for those users. Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
+After creation environment root user in every environment account and applying policy above, create security credentials for those users.
+Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
 
 When you have ready credentials for all accounts then deploy management environment.
 ```
@@ -133,6 +135,7 @@ terraform init
 terraform plan
 terraform apply
 ```
+Initiate environment variables invoking `artifact_export.sh`.
 
 ### deployment of new environment
 From the environment working directory create new workspace and deploy new environment.
