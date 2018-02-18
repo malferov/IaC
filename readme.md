@@ -31,15 +31,8 @@ unzip ./terraform_0.11.3_linux_amd64.zip && sudo mv ./terraform /usr/local/bin/
 sudo yum install jq
 ```
 
-
 ### setup management environment
 It is necessary to deploy management environment first.
-```
-cd segregation
-terraform init
-terraform plan
-terraform apply
-```
 Manually create `management_user` in management account and apply the policy below.
 <details><summary>IAM policy for management user</summary>
 
@@ -96,6 +89,16 @@ Manually create `management_user` in management account and apply the policy bel
 ```
 
 </details>
+
+After creation user and applying policy above, create security credentials for that user. Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
+
+Deploy management environment.
+```
+cd segregation
+terraform init
+terraform plan
+terraform apply
+```
 
 ### deployment of new environment
 From the environment working directory create new workspace and deploy new environment.
