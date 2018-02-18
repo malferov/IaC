@@ -90,9 +90,43 @@ Manually create `management_user` in management account and apply the policy bel
 
 </details>
 
-After creation user and applying policy above, create security credentials for that user. Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
+After creation management user and applying policy above, create security credentials for that user. Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
 
-Deploy management environment.
+Manually create `environment_root_user` in every environment account and apply the policy below.
+<details><summary>IAM policy for environment root user</summary>
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:*"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:policy/*",
+                "arn:aws:iam::*:user/*",
+                "arn:aws:iam::*:group/*",
+                "arn:aws:iam::*:role/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+</details>
+
+After creation environment root user in every environment account and applying policy above, create security credentials for those users. Create new key pair in section `access keys` and copy key values to the `segregation/terraform.tfvars`.
+
+When you have ready credentials for all accounts then deploy management environment.
 ```
 cd segregation
 terraform init
