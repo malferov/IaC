@@ -25,7 +25,6 @@ resource "aws_iam_user_policy" "env_policy" {
       "Effect": "Allow"
     },
     {
-      "Effect": "Allow",
       "Action": [
         "route53:GetHostedZone",
         "route53:ListResourceRecordSets",
@@ -35,7 +34,8 @@ resource "aws_iam_user_policy" "env_policy" {
       "Resource": [
         "arn:aws:route53:::hostedzone/*",
         "arn:aws:route53:::change/*"
-      ]
+      ],
+      "Effect": "Allow"
     }
   ]
 }

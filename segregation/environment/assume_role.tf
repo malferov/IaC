@@ -27,6 +27,34 @@ resource "aws_iam_policy" "env_policy" {
         }
       },
       "Effect": "Deny"
+    },
+    {
+      "Action": [
+        "iam:GetServerCertificate",
+        "iam:UploadServerCertificate",
+        "iam:DeleteServerCertificate"
+      ],
+      "Resource": "arn:aws:iam::*:server-certificate/*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "elasticloadbalancing:CreateLoadBalancer",
+        "elasticloadbalancing:CreateLoadBalancerListeners",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+        "elasticloadbalancing:ModifyLoadBalancerAttributes",
+        "elasticloadbalancing:DeleteLoadBalancer"
+      ],
+      "Resource": "arn:aws:elasticloadbalancing:*:*:loadbalancer/*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "elasticloadbalancing:DescribeLoadBalancers",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
     }
   ]
 }
