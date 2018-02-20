@@ -1,4 +1,5 @@
 variable "email" {}
+variable "letsencrypt_url" {}
 
 resource "tls_private_key" "private_key" {
   algorithm   = "RSA"
@@ -6,14 +7,13 @@ resource "tls_private_key" "private_key" {
 }
 
 resource "acme_registration" "reg" {
-# todo: move to var
-  server_url      = "https://acme-staging.api.letsencrypt.org/directory"
+  server_url      = "${letsencrypt_url}"
   account_key_pem = "${tls_private_key.private_key.private_key_pem}"
   email_address   = "${var.email}"
 }
 
 resource "acme_certificate" "cert" {
-  server_url                = "https://acme-staging.api.letsencrypt.org/directory"
+  server_url                = "${letsencrypt_url}"
   account_key_pem           = "${tls_private_key.private_key.private_key_pem}"
   common_name               = "api.${terraform.workspace}.${var.domain}"
   dns_challenge {
