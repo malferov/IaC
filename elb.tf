@@ -1,5 +1,5 @@
 resource "aws_elb" "elb" {
-  availability_zones = ["us-west-2a"]
+  availability_zones = ["${aws_instance.api.availability_zone}"]
   listener {
     instance_port      = 5000
     instance_protocol  = "http"

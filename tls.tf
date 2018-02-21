@@ -7,13 +7,13 @@ resource "tls_private_key" "private_key" {
 }
 
 resource "acme_registration" "reg" {
-  server_url      = "${letsencrypt_url}"
+  server_url      = "${var.letsencrypt_url}"
   account_key_pem = "${tls_private_key.private_key.private_key_pem}"
   email_address   = "${var.email}"
 }
 
 resource "acme_certificate" "cert" {
-  server_url                = "${letsencrypt_url}"
+  server_url                = "${var.letsencrypt_url}"
   account_key_pem           = "${tls_private_key.private_key.private_key_pem}"
   common_name               = "api.${terraform.workspace}.${var.domain}"
   dns_challenge {

@@ -42,6 +42,9 @@ resource "aws_iam_policy" "env_policy" {
         "elasticloadbalancing:CreateLoadBalancer",
         "elasticloadbalancing:CreateLoadBalancerListeners",
         "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+        "elasticloadbalancing:EnableAvailabilityZonesForLoadBalancer",
+        "elasticloadbalancing:DisableAvailabilityZonesForLoadBalancer",
+        "elasticloadbalancing:ConfigureHealthCheck",
         "elasticloadbalancing:ModifyLoadBalancerAttributes",
         "elasticloadbalancing:DeleteLoadBalancer"
       ],
