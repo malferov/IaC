@@ -2,7 +2,7 @@
 under construction
 
 The project shows how to deploy sample application to a cloud provider.
-The sample application is a restful api web service written in `Flask`.
+The sample application is a restful api web service written in `golang`.
 Having machine images tool like `Packer` in your deployment pipeline gives you even more flexibility.
 It gives you an option to run your application almost everywhere: starting from on-premises enterprise solutions end up with cloud-based.
 The main tool is `Terraform` taking over control of `AWS` cloud provider infrastructure.
@@ -143,3 +143,15 @@ From the environment working directory create new workspace and deploy new envir
 terraform workspace new _environment_
 terraform apply -auto-approve
 ```
+
+### application image and packer
+In order to run application EC2 service of AWS is used. Custom AMI image is created by `Packer` and provisioned with sample api web service.
+At first build the golang application:
+```
+cd app
+make deps
+make build
+```
+then create and register new AMI image `cd ../packer; make`,
+and update access policy to the new image `cd ../segregation; terraform apply`,
+and finally update current environment with new version of application `cd ..; terraform apply`.
