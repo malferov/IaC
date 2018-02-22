@@ -9,7 +9,7 @@
   }],
   "provisioners": [{
     "type": "file",
-    "source": "../app/app.py",
+    "source": "../app/bin/app",
     "destination": "~/"
   },
   {
@@ -22,11 +22,8 @@
     "inline":[
       "sudo mkdir /opt/app",
       "sudo chown centos:centos /opt/app",
-      "mv ~/app.py /opt/app/",
-      "sudo mv ~/app.service /etc/systemd/system/",
-      "sudo yum -y install epel-release mc",
-      "sudo yum -y install python-pip",
-      "sudo pip install Flask flask-restful"
+      "mv ~/app /opt/app/",
+      "sudo mv ~/app.service /etc/systemd/system/"
     ]
   },
   {
