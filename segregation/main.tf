@@ -14,6 +14,8 @@ module "management" {
   account = "${var.env_account}"
   domain  = "${var.domain}"
   backet  = "${var.backet}"
+  region  = "${var.region}"
+  itype   = "${var.itype}"
 }
 
 module "staging" {
