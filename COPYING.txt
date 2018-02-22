@@ -1,2 +1,2 @@
-Copyright (c) 2017 Maxim Alferov (malferov)
+Copyright (c) 2017-2018 Maxim Alferov (malferov)
 All Rights Reserved
