@@ -46,6 +46,7 @@ resource "aws_iam_policy" "env_policy" {
         "elasticloadbalancing:DisableAvailabilityZonesForLoadBalancer",
         "elasticloadbalancing:ConfigureHealthCheck",
         "elasticloadbalancing:ModifyLoadBalancerAttributes",
+        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
         "elasticloadbalancing:DeleteLoadBalancer"
       ],
       "Resource": "arn:aws:elasticloadbalancing:*:*:loadbalancer/*",
