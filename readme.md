@@ -20,8 +20,9 @@ Environment specific resources are encapsulated into module `./environment`.
 ### route53
 In order to deploy environment specific DNS records fill in the following section in `segregation/terraform.tfvars`
 ```
-domain = "_your_subdomain_name_"
+domain = "_subdomain_name_"
 ```
+Environments are deployed under subdomain name above. Application endpoint is `https://api._environment_name_._subdomain_name_/`
 
 ### setup deployment environment
 You have to install Terraform and `jq` tool.
