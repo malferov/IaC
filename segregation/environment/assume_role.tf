@@ -54,6 +54,16 @@ resource "aws_iam_policy" "env_policy" {
     },
     {
       "Action": [
+        "rds:CreateDBInstance",
+        "rds:DescribeDBInstances",
+        "rds:DeleteDBInstance",
+        "rds:ModifyDBInstance"
+      ],
+      "Resource": "arn:aws:rds:*:*:db:*",
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
         "elasticloadbalancing:DescribeLoadBalancers",
         "elasticloadbalancing:DescribeLoadBalancerAttributes"
       ],

@@ -26,6 +26,23 @@ resource "aws_security_group" "sg_api" {
   }
 }
 
+resource "aws_security_group" "sg_rds" {
+  name        = "rds"
+  description = "access to rds instance"
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["${aws_security_group.sg_api.id}"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_key_pair" "auth_api" {
   key_name   = "api-cred"
   public_key = "${file(var.public_key_path)}"
