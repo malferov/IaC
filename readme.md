@@ -65,6 +65,7 @@ Manually create `management_user` in management account and apply the policy bel
             "Action": [
                 "route53:CreateHostedZone",
                 "route53:DeleteHostedZone",
+                "route53:ListHostedZones",
                 "route53:GetHostedZone"
             ],
             "Resource": "*"
