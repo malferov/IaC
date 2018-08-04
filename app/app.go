@@ -1,35 +1,32 @@
 package main
 
 import (
-	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
 )
 
+const (
+	version = "1.0"
+)
+
 func main() {
+	if len(os.Args) < 2 {
+		log.Fatal("please specify port argument")
+	}
 	port := os.Args[1]
 	r := gin.Default()
+	body := gin.H{
+		"data":    "welcome",
+		"version": version,
+	}
 	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "welcome", "status": http.StatusOK})
-	})
-	r.GET("/health", func(c *gin.Context) {
-		body := map[string]interface{}{}
-		req, err := http.NewRequest("GET", "http://localhost:9200/_cluster/health", nil)
-		if err != nil {
-			log.Println(err)
-		}
-		req.SetBasicAuth("elastic", "changeme")
-		client := &http.Client{}
-		resp, err := client.Do(req)
-		if err != nil {
-			log.Println(err)
-		}
-		defer resp.Body.Close()
-		err = json.NewDecoder(resp.Body).Decode(&body)
-		if err != nil {
-			log.Println(err)
+		hostname, err := os.Hostname()
+		if err == nil {
+			body["hostname"] = hostname
+		} else {
+			body["error"] = err.Error()
 		}
 		c.JSON(http.StatusOK, body)
 	})

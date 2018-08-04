@@ -4,4 +4,4 @@
 terraform.tfstate*
 packer/manifest.json
 *.tmp
-app/bin
+app/app
