@@ -1,7 +1,8 @@
 .terraform
 *tfvars*
+*tfplan*
+*tfstate*
 .key
-terraform.tfstate*
 packer/manifest.json
 *.tmp
 app/app
