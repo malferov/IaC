@@ -18,3 +18,9 @@ provider "aws" {
   secret_key = "${var.secret_key[terraform.workspace]}"
   region     = "${var.region}"
 }
+
+variable "letsencrypt_url" {}
+
+provider "acme" {
+  server_url = "${var.letsencrypt_url}"
+}

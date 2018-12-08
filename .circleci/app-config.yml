@@ -1,0 +1,51 @@
+version: 2
+
+jobs:
+
+  build:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout:
+          path: src
+      - run: |
+          mkdir artifacts
+          cd src/client
+          npm install
+          sudo npm install -g bower
+          bower install
+          sudo npm install -g gulp
+          sudo npm link gulp
+          gulp build
+          cd build && tar -czf ../../../artifacts/c3s-client-${CIRCLE_BUILD_NUM}.tgz . && cd ..
+          cd app_home && tar -czf ../../../artifacts/c3s-www-${CIRCLE_BUILD_NUM}.tgz . && cd ..
+      - store_artifacts:
+          path: artifacts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - artifacts
+  deploy:
+    docker:
+      - image: circleci/slim-base
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          ssh -o StrictHostKeyChecking=no centos@${DEPLOY_TEST_SERVER} "rm -rf artifacts/c3s-*.tgz"
+          scp -o StrictHostKeyChecking=no -r artifacts/* centos@${DEPLOY_TEST_SERVER}:artifacts
+          ssh -o StrictHostKeyChecking=no centos@${DEPLOY_TEST_SERVER} "tar -xzf artifacts/c3s-client-*.tgz -C /usr/share/nginx/html/app"
+          ssh -o StrictHostKeyChecking=no centos@${DEPLOY_TEST_SERVER} "tar -xzf artifacts/c3s-www-*.tgz -C /usr/share/nginx/html/www"
+          ssh -o StrictHostKeyChecking=no centos@${DEPLOY_TEST_SERVER} "sudo systemctl restart nginx"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: feature/*
+      - deploy:
+          requires:
+            - build

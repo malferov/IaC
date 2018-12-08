@@ -1,0 +1,35 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/slim-base
+    steps:
+      - checkout:
+          path: src
+      - run: mkdir artifacts
+      - run: cd src && tar --exclude=./.* -czf ../artifacts/c3s-server-${CIRCLE_BUILD_NUM}.tgz . && cd ..
+      - store_artifacts:
+          path: artifacts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - artifacts
+  deploy:
+    docker:
+      - image: circleci/slim-base
+    steps:
+      - attach_workspace:
+          at: .
+      - run: ssh -o StrictHostKeyChecking=no centos@${TEST_SERVER} "rm -rf artifacts/c3s-server-*.tgz"
+      - run: scp -o StrictHostKeyChecking=no -r artifacts/* centos@${TEST_SERVER}:artifacts
+      - run: ssh -o StrictHostKeyChecking=no centos@${TEST_SERVER} "tar -xzf artifacts/c3s-server-*.tgz -C /opt/c3s-server"
+      - run: ssh -o StrictHostKeyChecking=no centos@${TEST_SERVER} "cd /opt/c3s-server; npm install; sudo systemctl restart c3s-server"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

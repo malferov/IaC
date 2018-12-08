@@ -1,5 +1,4 @@
 variable "email" {}
-variable "letsencrypt_url" {}
 
 resource "tls_private_key" "private_key" {
   algorithm   = "RSA"
@@ -7,13 +6,11 @@ resource "tls_private_key" "private_key" {
 }
 
 resource "acme_registration" "reg" {
-  server_url      = "${var.letsencrypt_url}"
   account_key_pem = "${tls_private_key.private_key.private_key_pem}"
   email_address   = "${var.email}"
 }
 
 resource "acme_certificate" "cert" {
-  server_url                = "${var.letsencrypt_url}"
   account_key_pem           = "${tls_private_key.private_key.private_key_pem}"
   common_name               = "api.${terraform.workspace}.${var.domain}"
   dns_challenge {
@@ -25,7 +22,6 @@ resource "acme_certificate" "cert" {
       AWS_HOSTED_ZONE_ID    = "${var.zone}"
     }
   }
-  registration_url = "${acme_registration.reg.id}"
 }
 
 resource "aws_iam_server_certificate" "cert" {
