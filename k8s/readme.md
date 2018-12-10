@@ -8,6 +8,7 @@ kubectl config use-context cicd
 
 kubectl create deployment app --image=malferov/app:3
 kubectl expose deployment app --type=LoadBalancer --port=5000
+kubectl set image app --image=malferov/app:4
 kubectl delete service app
 kubectl delete deployment app
 ```
