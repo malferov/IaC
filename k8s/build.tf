@@ -14,8 +14,8 @@ locals {
   user  = "centos"
 }
 
-resource "google_compute_instance" "app" {
-  name         = "app"
+resource "google_compute_instance" "build" {
+  name         = "build"
   machine_type = "${var.size}"
 
   boot_disk {
@@ -42,7 +42,6 @@ resource "google_compute_instance" "app" {
     source      = "jenkins"
     destination = "~"
   }
-
   provisioner "remote-exec" {
     inline = [
       "${local.yum} docker git mc",
@@ -56,5 +55,5 @@ resource "google_compute_instance" "app" {
 }
 
 output "build" {
-  value = "${google_compute_instance.app.network_interface.0.access_config.0.assigned_nat_ip}"
+  value = "${google_compute_instance.build.network_interface.0.access_config.0.assigned_nat_ip}"
 }

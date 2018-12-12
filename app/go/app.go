@@ -20,6 +20,7 @@ func main() {
 	body := gin.H{
 		"data":    "welcome",
 		"version": version,
+                "lang":    "golang",
 	}
 	r.GET("/", func(c *gin.Context) {
 		hostname, err := os.Hostname()

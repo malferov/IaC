@@ -1,8 +1,9 @@
 const http = require('http');
-const version = '1.5';
-
-const hostname = '0.0.0.0';
+const os = require("os");
+const bind = '0.0.0.0';
 const port = 5000;
+
+const version = '1.5';
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
@@ -11,10 +12,12 @@ const server = http.createServer((req, res) => {
     JSON.stringify({
       data: 'welcome',
       version: version,
+      lang: 'js',
+      hostname: os.hostname(),
     })
   );
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`)
+server.listen(port, bind, () => {
+  console.log(`Server running at http://${bind}:${port}/`)
 })
