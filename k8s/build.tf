@@ -1,71 +1,60 @@
-resource "kubernetes_deployment" "build" {
-  metadata {
-    name = "build"
+variable "app_repo" {}
+variable "size" {}
+variable "public_key" {
+  #  default = "/dev/null"
+}
 
-    labels {
-      app = "build"
+variable "private_key" {
+  #  default = "/dev/null"
+}
+
+locals {
+  yum   = "sudo yum -y -d 1 install"
+  image = "centos-7"
+  user  = "centos"
+}
+
+resource "google_compute_instance" "app" {
+  name         = "app"
+  machine_type = "${var.size}"
+
+  boot_disk {
+    initialize_params {
+      image = "${local.image}"
     }
   }
 
-  spec {
-    replicas = 1
+  network_interface {
+    network       = "${data.google_compute_network.net.name}"
+    access_config = {}
+  }
 
-    selector {
-      match_labels {
-        app = "build"
-      }
-    }
+  metadata {
+    sshKeys = "${local.user}:${file(var.public_key)}"
+  }
 
-    template {
-      metadata {
-        labels {
-          app = "build"
-        }
-      }
+  connection {
+    user        = "${local.user}"
+    private_key = "${file(var.private_key)}"
+  }
 
-      spec {
-        container {
-          image = "jenkins/jenkins:lts"
-          name  = "jenkins"
+  provisioner "file" {
+    source      = "jenkins"
+    destination = "~"
+  }
 
-          env {
-            name  = "JAVA_OPTS"
-            value = "-Djenkins.install.runSetupWizard=false"
-          }
-          command = ["apt-get update", "apt-get -y install git curl openssh-client"]
-        }
-
-        container {
-          image = "sonarqube:lts"
-          name  = "sonar"
-        }
-      }
-    }
+  provisioner "remote-exec" {
+    inline = [
+      "${local.yum} docker git mc",
+      "sudo systemctl start docker",
+      "sudo git clone ${var.app_repo} && cd iac/k8s/jenkins",
+      "sudo docker build -t jenkins .",
+      "sudo chmod 777 /var/run/docker.sock",
+      "sudo docker run --name jenkins -d -p 8080:8080 -v /var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins",
+    ]
   }
 }
 
-resource "kubernetes_service" "build" {
-  metadata {
-    name = "build"
-  }
-
-  spec {
-    selector {
-      app = "${kubernetes_deployment.build.metadata.0.labels.app}"
-    }
-
-    session_affinity = "ClientIP"
-
-    port {
-      name = "jenkins"
-      port = "8080"
-    }
-
-    port {
-      name = "sonar"
-      port = "9000"
-    }
-
-    type = "LoadBalancer"
-  }
+output "build" {
+  value = "${google_compute_instance.app.network_interface.0.access_config.0.assigned_nat_ip}"
 }
