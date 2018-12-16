@@ -40,7 +40,7 @@ resource "aws_instance" "build" {
       "sudo mysql -h ${aws_db_instance.db.address} -u ${var.db_user} -p${var.db_pass} -e \"CREATE DATABASE IF NOT EXISTS n5m;\"",
       "sudo git clone ${var.app_repo} && cd n5m/flask",
       "sudo docker build -t n5m .",
-      "sodo docker run --name=n5m-db-init -d -e MYSQL_HOST=${aws_db_instance.db.address} n5m python db.py",
+      "sudo docker run --name=n5m-db-init -d -e MYSQL_HOST=${aws_db_instance.db.address} n5m python db.py",
       "cd ~/jenkins && sudo docker build -t jenkins .",
 
       // temporary
