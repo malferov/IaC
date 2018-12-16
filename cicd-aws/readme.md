@@ -1,3 +1,13 @@
+# CICD for Flask application
+- hosted in `aws`
+- containerized `flask` application with `mysql` database
+- delivery pipeline in `Jenkinsfile`
+- container logs are shipped into `elk` stack
+- `scaling` of app as a a jenkins build parameter
+- automated deployment of `app`
+- automated deployment of `cicd` pipeline
+- all deployments implemented using `terraform`
+
 # terraform.tfvars
 ```
 access_key    = ""
