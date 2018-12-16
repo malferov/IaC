@@ -1,8 +1,32 @@
 variable "master_user" {}
 variable "master_pass" {}
 
-resource "google_container_cluster" "primary" {
-  name               = "cicd"
+locals {
+  kubeconfig = <<KUBECONFIG
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://${google_container_cluster.kube.endpoint}
+  name: kube
+contexts:
+- context:
+    cluster: kube
+    user: admin
+  name: kube
+current-context: kube
+kind: Config
+preferences: {}
+users:
+- name: admin
+  user:
+    username: ${var.master_user}
+    password: ${var.master_pass}
+KUBECONFIG
+}
+
+resource "google_container_cluster" "kube" {
+  name               = "kube"
   zone               = "us-central1-a"
   initial_node_count = 2
 
@@ -22,26 +46,5 @@ resource "google_container_cluster" "primary" {
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
     ]
-
-    labels {
-      service = "cicd"
-    }
-
-    tags = ["service", "cicd"]
   }
 }
-
-/*
-output "client_certificate" {
-  value = "${google_container_cluster.primary.master_auth.0.client_certificate}"
-}
-
-output "client_key" {
-  value = "${google_container_cluster.primary.master_auth.0.client_key}"
-}
-
-output "cluster_ca_certificate" {
-  value = "${google_container_cluster.primary.master_auth.0.cluster_ca_certificate}"
-}
-*/
-

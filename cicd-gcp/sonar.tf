@@ -53,3 +53,7 @@ resource "kubernetes_service" "sonar" {
     type = "LoadBalancer"
   }
 }
+
+output "sonar" {
+  value = "${kubernetes_service.sonar.load_balancer_ingress.0.ip}:9000"
+}

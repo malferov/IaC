@@ -1,8 +1,5 @@
-variable "tag" {}
-
 locals {
   port = "5000"
-  repo = "malferov"
   app  = "app"
 }
 
@@ -33,7 +30,7 @@ resource "kubernetes_deployment" "app" {
 
       spec {
         container {
-          image = "${local.repo}/${local.app}:${var.tag}"
+          image = "malferov/app:3" # temporary "gcr.io/google-samples/node-hello:1.0"
           name  = "${local.app}"
         }
       }
@@ -59,4 +56,8 @@ resource "kubernetes_service" "app" {
 
     type = "LoadBalancer"
   }
+}
+
+output "app" {
+  value = "${kubernetes_service.app.load_balancer_ingress.0.ip}:${local.port}"
 }
