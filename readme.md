@@ -1,5 +1,5 @@
 ## IaC example project
-[CICD pipeline in AWS](cicd-aws/readme.md)
+[CICD pipeline in AWS](cicd-aws/readme.md)  
 [CICD pipeline in GCP](cicd-gcp/readme.md)
 
 The project shows how to deploy sample application to a cloud provider.
