@@ -5,17 +5,19 @@ const port = process.argv[2] || 5001;
 const data = 'data.json';
 const fs = require('fs');
 
-const version = '2.0';
+const version = '2.1';
 
-if (!fs.existsSync(process.env.MOUNT + '/' + data)) {
-  fs.writeFile(
-    process.env.MOUNT + '/' + data,
+let data_path = '';
+if (typeof process.env.MOUNT === 'undefined') data_path = '.';
+else data_path = process.env.MOUNT;
+data_path = data_path + '/' + data;
+
+if (!fs.existsSync(data_path)) {
+  fs.writeFileSync(
+    data_path,
     JSON.stringify({
       data: 0,
-    }),
-    function(err) {
-      if(err) return console.log(err);
-    }
+    })
   )
 }
 
@@ -36,15 +38,12 @@ const server = http.createServer((req, res) => {
       token = JSON.parse(chunk).token;
       if (typeof process.env.TOKEN !== 'undefined' && token == process.env.TOKEN) {
         res.statusCode = 200;
-        var content = fs.readFileSync(process.env.MOUNT + '/' + data)
+        var content = fs.readFileSync(data_path)
         fs.writeFile(
-          process.env.MOUNT + '/' + data,
+          data_path,
           JSON.stringify({
             data: JSON.parse(content).data + 1,
-          }),
-          function(err) {
-            if(err) return console.log(err);
-          }
+          })
         );
         res.end(content);
       }
