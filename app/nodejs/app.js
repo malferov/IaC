@@ -3,11 +3,11 @@ const os = require("os");
 const bind = '0.0.0.0';
 const port = process.argv[2] || 5000;
 
-const version = '1.6';
+const version = '1.7';
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', 'application/json');
   res.end(
     JSON.stringify({
       data: 'welcome',
