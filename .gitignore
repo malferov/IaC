@@ -5,4 +5,4 @@
 .key
 packer/manifest.json
 *.tmp
-app/app
+app/go/app
