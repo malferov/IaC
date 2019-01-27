@@ -3,4 +3,4 @@ ARG port
 EXPOSE $port
 COPY app.js .
 ENTRYPOINT ["node", "app.js"]
-CMD ["5000", "1"]
+CMD ["5000", "a2fbba5"]

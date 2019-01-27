@@ -1,14 +1,11 @@
 #!/bin/bash
-# build.sh BUILD_NUMBER
-BUILD_NUMBER=$1
+BUILD_NUMBER=`git rev-parse --short HEAD`
 PORT=5000
 REG=docker.io
 USER=malferov
-APP=app
+APP=$REG/$USER/app:$BUILD_NUMBER
 sed -i '/CMD/d' Dockerfile
 echo CMD [\"$PORT\", \"$BUILD_NUMBER\"] >> Dockerfile
 docker build -t $APP --build-arg port=$PORT .
-TAG=$REG/$USER/$APP:$BUILD_NUMBER
-docker tag $APP $TAG
 docker login -u $USER $REG
-docker push $TAG
+docker push $APP
