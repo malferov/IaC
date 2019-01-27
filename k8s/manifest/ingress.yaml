@@ -5,8 +5,15 @@ metadata:
   labels:
     app: app
 spec:
-#  tls:
-#    - secretName: app-tls
-  backend:
-    serviceName: app
-    servicePort: 5000
+  tls:
+  - hosts:
+    - app.iac.st-corp.ru
+    secretName: app-tls
+  rules:
+    - host: app.iac.st-corp.ru
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: app
+            servicePort: 5000
