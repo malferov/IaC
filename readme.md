@@ -58,7 +58,9 @@ Manually create `management_user` in management account and apply the policy bel
             "Resource": [
                 "arn:aws:iam::*:policy/*",
                 "arn:aws:iam::*:user/*",
-                "arn:aws:iam::*:group/*"
+                "arn:aws:iam::*:group/*",
+                "arn:aws:iam::*:role/*",
+                "arn:aws:iam::*:instance-profile/*"
             ]
         },
         {
@@ -82,8 +84,28 @@ Manually create `management_user` in management account and apply the policy bel
         {
             "Effect": "Allow",
             "Action": [
-                "ec2:Describe*",
-                "ec2:ModifyImageAttribute"
+                "ec2:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "acm:ImportCertificate",
+                "acm:DescribeCertificate",
+                "acm:ListTagsForCertificate",
+                "acm:DeleteCertificate"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "eks:DescribeCluster",
+                "eks:CreateCluster",
+                "eks:DeleteCluster",
+                "autoscaling:*",
+                "elasticloadbalancing:*"
             ],
             "Resource": "*"
         }
