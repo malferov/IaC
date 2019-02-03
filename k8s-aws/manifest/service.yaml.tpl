@@ -14,3 +14,5 @@ spec:
   ports:
     - port: 443
       targetPort: 5000
+  loadBalancerSourceRanges:
+  - ${trusted}

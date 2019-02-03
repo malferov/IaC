@@ -8,8 +8,6 @@ data "aws_ami" "eks-worker" {
   owners      = ["602401143452"] # Amazon EKS AMI Account ID
 }
 
-data "aws_region" "current" {}
-
 locals {
   kube-node-userdata = <<USERDATA
 #!/bin/bash
@@ -51,6 +49,16 @@ resource "aws_autoscaling_group" "kube" {
     value               = "owned"
     propagate_at_launch = true
   }
+
+  depends_on = [
+    "aws_security_group_rule.kube-cluster-ingress-workstation-https",
+    "aws_security_group_rule.kube-cluster-ingress-node-https",
+    "aws_security_group_rule.kube-node-ingress-self",
+    "aws_security_group_rule.kube-node-ingress-cluster",
+    "aws_iam_role_policy_attachment.kube-node-AmazonEKSWorkerNodePolicy",
+    "aws_iam_role_policy_attachment.kube-node-AmazonEKS_CNI_Policy",
+    "aws_iam_role_policy_attachment.kube-node-AmazonEC2ContainerRegistryReadOnly",
+  ]
 }
 
 resource "aws_iam_role" "kube-node" {

@@ -1,15 +1,22 @@
+variable "trusted" {}
+
 data "template_file" "app" {
   template = "${file("manifest/service.yaml.tpl")}"
 
   vars {
-    cert = "${aws_acm_certificate.cert.arn}"
+    cert    = "${aws_acm_certificate.cert.arn}"
+    trusted = "${var.trusted}"
   }
 }
 
 resource "local_file" "service" {
-  filename   = "manifest/service.yaml"
-  content    = "${data.template_file.app.rendered}"
-  depends_on = ["local_file.mapconfig"]
+  filename = "manifest/service.yaml"
+  content  = "${data.template_file.app.rendered}"
+
+  depends_on = [
+    "local_file.mapconfig",
+    "aws_autoscaling_group.kube",
+  ]
 }
 
 /*
