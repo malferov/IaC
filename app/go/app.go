@@ -8,19 +8,20 @@ import (
 )
 
 const (
-	version = "1.5"
+	version = "1.8"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		log.Fatal("please specify port argument")
+	if len(os.Args) < 3 {
+		log.Fatal("please specify port and build arguments")
 	}
 	port := os.Args[1]
 	r := gin.Default()
 	body := gin.H{
 		"data":    "welcome",
 		"version": version,
-                "lang":    "golang",
+		"build":   os.Args[2],
+		"lang":    "golang",
 	}
 	r.GET("/", func(c *gin.Context) {
 		hostname, err := os.Hostname()
