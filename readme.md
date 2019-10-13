@@ -108,6 +108,16 @@ Manually create `management_user` in management account and apply the policy bel
                 "elasticloadbalancing:*"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ecs:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "ecr:*",
+            "Resource": "*"
         }
     ]
 }
