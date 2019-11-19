@@ -118,6 +118,11 @@ Manually create `management_user` in management account and apply the policy bel
             "Effect": "Allow",
             "Action": "ecr:*",
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "elasticache:*",
+            "Resource": "*"
         }
     ]
 }
